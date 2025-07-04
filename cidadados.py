@@ -3,6 +3,7 @@ from tkinter import *
 import customtkinter as ctk
 from pathlib import Path
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+from tkinter import messagebox
 
 
 dados = [
@@ -141,6 +142,41 @@ window = ctk.CTk()
 
 window.geometry("1000x550")
 window.configure(bg = "#708090")
+
+
+def processar_nome(nome):
+    if not nome:
+          messagebox.showerror("erro" "Erro nome inválido")
+          return
+    if len(nome) < 2:
+          messagebox.showerror("erro" "Nome inválido")
+
+    encontrado = None
+
+    for names in dados: 
+        if names["nome"].lower() == nome.lower():
+             encontrado = names
+             break
+        
+    if encontrado:
+        texto = f"Nome: {encontrado['nome']}\nIdade: {encontrado['idade']}\n Cidade: {encontrado['cidade']}"
+        label_resultado.configure(text= texto)
+        
+
+    else: 
+         label_resultado.configure(text = "Cliente não encontrado ")
+
+         
+             
+    
+
+
+def janelaNome ():
+    dialog = ctk.CTkInputDialog(text= "Escreva o nome do cliente", title="Filtre pelo nome dos clientes")
+
+    nome = dialog.get_input()
+    processar_nome(nome)
+
 
 
 
@@ -324,22 +360,11 @@ image_11 = canvas.create_image(
     image=image_image_11
 )
 
-
-def janelaNome ():
-    dialog = ctk.CTkInputDialog(text= "Escreva o nome do cliente", title="Filtre pelo nome dos clientes")
-
-    nome = dialog.get_input()
-    if nome:
-         texto.configure(text=nome)
-
-
-texto = ctk.CTkLabel(window, text ="")
-texto.place(x = 798.000000035019, y= 307.0000000137656,)
-
 buttonFiltrarNome = ctk.CTkButton(window, text= "Filtrar Nome", width=120, height=30, fg_color="transparent", bg_color="#D9D9D9" ,border_width=0, hover_color="#D9D9D9", command=janelaNome, text_color="#000000", font=("Inter Bold", 16 * -1))
 buttonFiltrarNome.place(x=77, y=266)
 
-
+label_resultado = ctk.CTkLabel(window, text="Resultado")
+label_resultado.place(x = 798.000000035019, y= 307.0000000137656)
 
 
 
