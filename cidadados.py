@@ -178,6 +178,27 @@ def janelaNome ():
     processar_nome(nome)
 
 
+def processarMediaIdade():    # Função que processa a média dos clientes ao clicar no botão
+     somaIdade = 0
+     for idade in dados:
+          if(idade['idade'] > 0):
+            somaIdade += idade['idade']
+            
+
+     texto = f"A média da idade dos clientes são de {somaIdade/somaClientes}"
+     label_resultado.configure(text=texto)
+     print(texto)
+
+     
+
+    
+
+    
+
+    
+     
+
+
 
 
 canvas = Canvas(
@@ -363,9 +384,12 @@ image_11 = canvas.create_image(
 buttonFiltrarNome = ctk.CTkButton(window, text= "Filtrar Nome", width=120, height=30, fg_color="transparent", bg_color="#D9D9D9" ,border_width=0, hover_color="#D9D9D9", command=janelaNome, text_color="#000000", font=("Inter Bold", 16 * -1))
 buttonFiltrarNome.place(x=77, y=266)
 
-label_resultado = ctk.CTkLabel(window, text="Resultado")
-label_resultado.place(x = 798.000000035019, y= 307.0000000137656)
+buttonFiltrarMedia = ctk.CTkButton(window, text= "Filtrar media Idade",  width=120, height=30, fg_color="transparent", bg_color="#D9D9D9" ,border_width=0, hover_color="#D9D9D9", command=processarMediaIdade, text_color="#000000", font=("Inter Bold", 16 * -1))
+buttonFiltrarMedia.place(x= 284.0000000350189, y= 270.0000000137656)
 
+label_resultado = ctk.CTkLabel(window, text="Resultado")
+
+label_resultado.place(x = 798.000000035019, y= 200)
 
 
 
