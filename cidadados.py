@@ -191,12 +191,12 @@ def processarMediaIdade():    # Função que processa a média dos clientes ao c
 
      
 
+def gerarCidades():
     
+    textoCidade = cidades
+    label_resultado.configure(text=textoCidade)
 
     
-
-    
-     
 
 
 
@@ -387,10 +387,13 @@ buttonFiltrarNome.place(x=77, y=266)
 buttonFiltrarMedia = ctk.CTkButton(window, text= "Filtrar media Idade",  width=120, height=30, fg_color="transparent", bg_color="#D9D9D9" ,border_width=0, hover_color="#D9D9D9", command=processarMediaIdade, text_color="#000000", font=("Inter Bold", 16 * -1))
 buttonFiltrarMedia.place(x= 284.0000000350189, y= 270.0000000137656)
 
+buttonFiltrarCidade = ctk.CTkButton(window, text= "Filtrar cidade",  width=120, height=30, fg_color="transparent", bg_color="#D9D9D9" ,border_width=0, hover_color="#D9D9D9", command= gerarCidades, text_color="#000000", font=("Inter Bold", 16 * -1))
+buttonFiltrarCidade.place( x= 67.00000003501893, y = 332.0000000137656)
+
+
+
 label_resultado = ctk.CTkLabel(window, text="Resultado")
-
 label_resultado.place(x = 798.000000035019, y= 200)
-
 
 
 window.resizable(False, False)
