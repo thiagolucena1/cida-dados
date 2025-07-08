@@ -4,6 +4,8 @@ import customtkinter as ctk
 from pathlib import Path
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 from tkinter import messagebox
+import tkinter.ttk as ttk
+
 
 
 dados = [
@@ -31,6 +33,8 @@ dados = [
   {"nome": "Marta", "idade": 66, "cidade": "Vitória"},
 ]
 
+
+
 clientesOrdemAlfabetica = sorted(dados, key=lambda pessoas: pessoas["nome"] )
 
 somaClientes= 0
@@ -46,7 +50,6 @@ for cidadee in dados:
      if ( cidadee["cidade"] not in cidades):
         cidades.append(cidadee["cidade"])
         somaCidade +=1
-
 
 
 
@@ -91,7 +94,7 @@ match escolha:
             contador += 1
         
         media = somaIdade/contador
-        print(f"A media das idades são de {media}")
+        print(f"A media das idades são de {media:.2f}")
 
     
     case 3: 
@@ -122,9 +125,7 @@ match escolha:
     
 
     case 4:
-          for cidade in dados:
-               print(cidade["cidade"])
-               cidades.append(cidade["cidade"])
+            print(cidades)
 
 
 
@@ -189,18 +190,63 @@ def processarMediaIdade():    # Função que processa a média dos clientes ao c
      label_resultado.configure(text=texto)
      print(texto)
 
+def janelaCidade():
+     janelaCidade = ctk.CTkToplevel(window)
+     janelaCidade.title("Filtrar Todas as cidades Existentes cadastradas")
+     janelaCidade.geometry("1000x550")
+     
+     tabela = ttk.Treeview(janelaCidade, selectmode="browse", columns= ("cidade", ), show="headings")
+     tabela.column("cidade", width=300, anchor="w")
+     tabela.heading("cidade", text="Cidades")
+     tabela.pack(fill="both", expand=True, padx=20, pady=20)
+
+
+     for names in cidades:
+          tabela.insert("", "end", values=(names, ))
      
 
-def gerarCidades():
+def processarCidade():
+     
+    janelaPerguntarCidade = ctk.CTkInputDialog(text= "Escreva o nome da cidade" , title="Nome da cidade?")
+    nomeCidade = janelaPerguntarCidade.get_input()
+
+    janelaClientePorCidade(nomeCidade)
+
     
-    textoCidade = None
-    for cidade in cidades:
-         textoCidade = + textoCidade 
-
-    label_resultado.configure(text=textoCidade)
-
     
+     
+def janelaClientePorCidade(nomeCidade):
+    JanelaClientePorCidade = ctk.CTkToplevel(window)
+    JanelaClientePorCidade.title(f"Clientes de {nomeCidade.title()}")
+    JanelaClientePorCidade.geometry("600x400")
 
+    tabelacompleta = ttk.Treeview(
+        JanelaClientePorCidade,
+        selectmode="browse",
+        columns=("nome", "idade", "cidade"),
+        show='headings'
+    )
+
+    tabelacompleta.heading("nome", text="Nome")
+    tabelacompleta.heading("idade", text="Idade")
+    tabelacompleta.heading("cidade", text="Cidade")
+    tabelacompleta.column("nome", width=200, anchor="w")
+    tabelacompleta.column("idade", width=80, anchor="center")
+    tabelacompleta.column("cidade", width=200, anchor="w")
+    tabelacompleta.pack(fill="both", expand=True, padx=20, pady=20)
+
+    nomelocalizado = False 
+
+    for inf in dados:
+        if inf['cidade'].lower() == nomeCidade.lower(): 
+             tabelacompleta.insert("", "end", values=(inf["nome"], inf["idade"], inf["cidade"]))
+             nomelocalizado = True
+
+
+    if not nomeLocalizado:
+         tabelacompleta.insert("", "end", values=("Nenhum cliente com esse nome encontrado", "", ""))
+            
+               
 
 
 
@@ -390,9 +436,11 @@ buttonFiltrarNome.place(x=77, y=266)
 buttonFiltrarMedia = ctk.CTkButton(window, text= "Filtrar media Idade",  width=120, height=30, fg_color="transparent", bg_color="#D9D9D9" ,border_width=0, hover_color="#D9D9D9", command=processarMediaIdade, text_color="#000000", font=("Inter Bold", 16 * -1))
 buttonFiltrarMedia.place(x= 284.0000000350189, y= 270.0000000137656)
 
-buttonFiltrarCidade = ctk.CTkButton(window, text= "Filtrar cidade",  width=120, height=30, fg_color="transparent", bg_color="#D9D9D9" ,border_width=0, hover_color="#D9D9D9", command= gerarCidades, text_color="#000000", font=("Inter Bold", 16 * -1))
+buttonFiltrarCidade = ctk.CTkButton(window, text= "Filtrar cidade",  width=120, height=30, fg_color="transparent", bg_color="#D9D9D9" ,border_width=0, hover_color="#D9D9D9", command= janelaCidade, text_color="#000000", font=("Inter Bold", 16 * -1))
 buttonFiltrarCidade.place( x= 67.00000003501893, y = 332.0000000137656)
 
+buttonFiltrarClientesPorCidade = ctk.CTkButton(window, text="Filtrar clientes por cidade", width=120, height=30, fg_color="transparent", bg_color="#D9D9D9" ,border_width=0, hover_color="#D9D9D9", command=processarCidade, text_color="#000000", font=("Inter Bold", 16 * -1))
+buttonFiltrarClientesPorCidade.place(x= 272.0000000350189, y= 326.0000000137656)
 
 
 label_resultado = ctk.CTkLabel(window, text="Resultado")
