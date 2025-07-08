@@ -9,4 +9,5 @@ Note-se que esse projeto esta em desenvolvimento, então é possível que futura
 ## Atualizações 
 - Nesta nova atualização foi implementado a opção de filtrar os clientes pela cidades cadastradas. 
 - Remoção do console, e as funcionalidades do console foram transferidas para a interface gráfica. 
+- Adicionando sql local e alinhamento de botões.
 

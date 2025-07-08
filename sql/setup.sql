@@ -1,0 +1,10 @@
+CREATE DATABASE IF NOT EXISTS clientes;
+
+USE clientes;
+
+CREATE TABLE IF NOT EXISTS cliente (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nome VARCHAR(255) NOT NULL,
+  idade INT,
+  cidade VARCHAR(255)
+);

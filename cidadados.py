@@ -5,7 +5,18 @@ from pathlib import Path
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 from tkinter import messagebox
 import tkinter.ttk as ttk
+from dotenv import load_dotenv
+import os
+import mysql.connector
 
+load_dotenv()
+
+conn = mysql.connector.connect(
+  host=os.getenv("DB_HOST"),
+  user=os.getenv("DB_USER"),
+  password=os.getenv("DB_PASSWORD"),
+  database=os.getenv("DB_NAME")
+)
 
 
 dados = [
@@ -61,7 +72,7 @@ def relative_to_assets(path: str) -> Path:
 
 ctk.set_appearance_mode("light")  
 window = ctk.CTk()
-
+window.title("CidaDados")
 window.geometry("1000x550")
 window.configure(bg = "#708090")
 
@@ -87,9 +98,6 @@ def processar_nome(nome):
 
     else: 
          label_resultado.configure(text = "Cliente não encontrado ")
-
-         
-             
     
 
 
@@ -158,10 +166,17 @@ def janelaClientePorCidade(nomeCidade):
 
     nomelocalizado = False 
 
+    
     for inf in dados:
+
         if inf['cidade'].lower() == nomeCidade.lower(): 
+                tabelacompleta.insert("", "end", values=(inf["nome"], inf["idade"], inf["cidade"]))
+                nomelocalizado = True
+        
+        if nomeCidade.lower() == "geral":
              tabelacompleta.insert("", "end", values=(inf["nome"], inf["idade"], inf["cidade"]))
              nomelocalizado = True
+             
 
 
     if not nomeLocalizado:
@@ -303,7 +318,7 @@ canvas.create_text(
     272.0000000350189,
     326.0000000137656,
     anchor="nw",
-    text="Filtrar clientes por cidade",
+    text="",
     fill="#000000",
     font=("Inter Bold", 16 * -1)
 )
@@ -354,14 +369,14 @@ image_11 = canvas.create_image(
 buttonFiltrarNome = ctk.CTkButton(window, text= "Filtrar Nome", width=120, height=30, fg_color="transparent", bg_color="#D9D9D9" ,border_width=0, hover_color="#D9D9D9", command=janelaNome, text_color="#000000", font=("Inter Bold", 16 * -1))
 buttonFiltrarNome.place(x=77, y=266)
 
-buttonFiltrarMedia = ctk.CTkButton(window, text= "Filtrar media Idade",  width=120, height=30, fg_color="transparent", bg_color="#D9D9D9" ,border_width=0, hover_color="#D9D9D9", command=processarMediaIdade, text_color="#000000", font=("Inter Bold", 16 * -1))
+buttonFiltrarMedia = ctk.CTkButton(window, text= "Filtrar media Idade",  width=120, height=20, fg_color="transparent", bg_color="#D9D9D9" ,border_width=0, hover_color="#D9D9D9", command=processarMediaIdade, text_color="#000000", font=("Inter Bold", 16 * -1))
 buttonFiltrarMedia.place(x= 284.0000000350189, y= 270.0000000137656)
 
 buttonFiltrarCidade = ctk.CTkButton(window, text= "Filtrar cidade",  width=120, height=30, fg_color="transparent", bg_color="#D9D9D9" ,border_width=0, hover_color="#D9D9D9", command= janelaCidade, text_color="#000000", font=("Inter Bold", 16 * -1))
 buttonFiltrarCidade.place( x= 67.00000003501893, y = 332.0000000137656)
 
-buttonFiltrarClientesPorCidade = ctk.CTkButton(window, text="Filtrar clientes por cidade", width=120, height=30, fg_color="transparent", bg_color="#D9D9D9" ,border_width=0, hover_color="#D9D9D9", command=processarCidade, text_color="#000000", font=("Inter Bold", 16 * -1))
-buttonFiltrarClientesPorCidade.place(x= 272.0000000350189, y= 326.0000000137656)
+buttonFiltrarClientesPorCidade = ctk.CTkButton(window, text="Filtrar clientes por cidade ", width=95, height=30, fg_color="transparent", bg_color="#D9D9D9" ,border_width=0, hover_color="#D9D9D9", command=processarCidade, text_color="#000000", font=("Inter Bold", 16 * -1))
+buttonFiltrarClientesPorCidade.place(x= 253.0000000350189, y= 326.0000000137656)
 
 
 label_resultado = ctk.CTkLabel(window, text="Resultado")
