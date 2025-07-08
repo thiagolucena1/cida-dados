@@ -193,7 +193,10 @@ def processarMediaIdade():    # Função que processa a média dos clientes ao c
 
 def gerarCidades():
     
-    textoCidade = cidades
+    textoCidade = None
+    for cidade in cidades:
+         textoCidade = + textoCidade 
+
     label_resultado.configure(text=textoCidade)
 
     
